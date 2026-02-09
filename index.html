@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auditoria Site Única Ar Condicionado | Go&Grow</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #dc2626;
+            /* Red from reference */
+            --primary-dark: #b91c1c;
+            --accent: #ef4444;
+            --text-dark: #111827;
+            --text-light: #f3f4f6;
+            --text-muted: #6b7280;
+            --bg-light: #f9fafb;
+            --bg-white: #ffffff;
+            --bg-dark: #0a0a0a;
+            /* Deep black/grey for hero/dark sections */
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-color: var(--bg-white);
+        }
+
+        /* Hero Section - DARK */
+        .hero {
+            min-height: 90vh;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.85) 0%, #0a0a0a 100%),
+                url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 60px 20px;
+            position: relative;
+            color: var(--text-light);
+        }
+
+        .hero-content {
+            max-width: 1000px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .audit-tag {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--primary);
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        h1 {
+            font-size: clamp(3rem, 6vw, 5rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            color: #ffffff;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.1rem, 2vw, 1.4rem);
+            color: #d1d5db;
+            margin-bottom: 40px;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .made-by {
+            font-size: 0.9rem;
+            color: #9ca3af;
+            font-weight: 500;
+            margin-top: 30px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .made-by strong {
+            color: #fff;
+        }
+
+        /* Light Section Style */
+        .section-light {
+            background-color: var(--bg-light);
+            padding: 100px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Status Grid */
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: -80px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .status-card {
+            background: #ffffff;
+            padding: 40px 30px;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
+            border-left: 4px solid var(--primary);
+            transition: transform 0.3s ease;
+        }
+
+        .status-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .status-card.dark {
+            background: #111827;
+            color: #ffffff;
+            border-left: 4px solid var(--primary);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .status-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .status-icon {
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        .status-title {
+            font-size: 0.85rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-dark);
+        }
+
+        .status-card.dark .status-title {
+            color: #ffffff;
+        }
+
+        .status-desc {
+            font-size: 1rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .status-card.dark .status-desc {
+            color: #9ca3af;
+        }
+
+        /* Problem Section */
+        .problem-section-header {
+            margin-bottom: 50px;
+            padding-top: 60px;
+        }
+
+        .problem-label {
+            color: var(--primary);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .problem-headline {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #111827;
+            line-height: 1.1;
+        }
+
+        .white-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .white-card {
+            background: #ffffff;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+            border: 1px solid #e5e7eb;
+        }
+
+        .wc-title {
+            font-weight: 800;
+            margin-bottom: 15px;
+            color: #111827;
+            font-size: 1.2rem;
+        }
+
+        .wc-desc {
+            font-size: 1rem;
+            color: #4b5563;
+            line-height: 1.6;
+        }
+
+        .wc-desc strong {
+            color: var(--primary);
+        }
+
+        /* Dark Section */
+        .section-dark {
+            background-color: #050505;
+            padding: 120px 20px;
+            color: #ffffff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section-dark::before {
+            content: '';
+            position: absolute;
+            left: -100px;
+            top: 20%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(220, 38, 38, 0.25) 0%, transparent 70%);
+            filter: blur(80px);
+            pointer-events: none;
+        }
+
+        .dark-header .problem-headline {
+            color: #ffffff;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .feature-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 40px;
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+        }
+
+        .fb-title {
+            color: var(--primary);
+            font-weight: 700;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .fb-desc {
+            color: #d1d5db;
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        /* Mockups & Screenshots */
+        .visual-showcase {
+            margin-top: 80px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .showcase-caption {
+            display: block;
+            margin-top: 20px;
+            font-size: 0.95rem;
+            color: #9ca3af;
+            font-weight: 500;
+        }
+
+        /* Additional content Section */
+        .section-gray {
+            background-color: #f3f4f6;
+            padding: 100px 20px;
+        }
+
+        /* Timeline Section */
+        .timeline-container {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .timeline-separator {
+            width: 60px;
+            height: 4px;
+            background: var(--primary);
+            margin: 20px auto 40px auto;
+            border-radius: 2px;
+        }
+
+        .timeline-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .timeline-card {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e5e7eb;
+            text-align: left;
+            position: relative;
+        }
+
+        .phase-badge {
+            background: #111827;
+            color: #fff;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+
+        .tc-title {
+            font-weight: 800;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #111827;
+        }
+
+        .tc-desc {
+            font-size: 0.95rem;
+            color: #6b7280;
+            line-height: 1.6;
+        }
+
+        /* Financial Impact */
+        .finance-card {
+            background: #ffffff;
+            border: 2px solid var(--primary);
+            border-radius: 20px;
+            padding: 50px;
+            max-width: 700px;
+            margin: 80px auto 0 auto;
+            box-shadow: 0 25px 50px -12px rgba(220, 38, 38, 0.15);
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .finance-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: var(--primary);
+        }
+
+        /* Footer */
+        .strategy-footer {
+            background: #ffffff;
+            padding: 100px 20px;
+            text-align: center;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .footer-tag {
+            color: #111827;
+            font-weight: 800;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .footer-tag span {
+            color: var(--primary);
+        }
+
+        .cta-btn {
+            background: var(--primary);
+            color: #ffffff;
+            padding: 20px 50px;
+            border-radius: 100px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 40px;
+            transition: all 0.2s ease;
+            box-shadow: 0 10px 25px -5px rgba(220, 38, 38, 0.4);
+            letter-spacing: 1px;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            background: var(--primary-dark);
+            box-shadow: 0 20px 25px -5px rgba(220, 38, 38, 0.5);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .problem-headline {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="hero-content">
+            <span class="audit-tag">RELATÓRIO DE AUDITORIA</span>
+            <h1>Auditoria Site Única Ar Condicionado</h1>
+            <p class="hero-subtitle">Diagnóstico completo de performance, segurança e usabilidade para destravar o
+                potencial de vendas do seu e-commerce.</p>
+            <div class="made-by">Feito por <strong>Go&Grow</strong></div>
+        </div>
+    </header>
+
+    <!-- Context & Status Grid (Overlay on Hero) -->
+    <section class="section-light">
+        <div class="container">
+            <div class="status-grid">
+                <!-- Status Atual - White Card -->
+                <div class="status-card">
+                    <div class="status-header">
+                        <span class="status-icon">⚠️</span>
+                        <span class="status-title">STATUS ATUAL</span>
+                    </div>
+                    <p class="status-desc">
+                        Performance mobile crítica (<strong>Nota 45/100</strong>) e 5.7s de carregamento (LCP). O
+                        e-commerce
+                        atual enfrenta sérios problemas de lentidão.
+                    </p>
+                </div>
+
+                <!-- Objetivo - Dark Card -->
+                <div class="status-card dark">
+                    <div class="status-header">
+                        <span class="status-icon">🚀</span>
+                        <span class="status-title">NOSSO OBJETIVO</span>
+                    </div>
+                    <p class="status-desc">
+                        Atingir pontuação 90+ em performance, garantir carregamento em menos de 2s e oferecer segurança
+                        total ao consumidor.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Problem 1: Google Visibility -->
+            <div class="problem-section-header">
+                <div class="problem-label">🔍 PROBLEMA CRÍTICO #1</div>
+                <h2 class="problem-headline">O Site é Invisível no Mobile</h2>
+            </div>
+
+            <div class="white-cards-grid">
+                <div class="white-card">
+                    <h3 class="wc-title">O que falha</h3>
+                    <p class="wc-desc">
+                        O site foi projetado pensando em desktop, mas a maioria esmagadora dos acessos é mobile. Com
+                        <strong>6 segundos</strong> de carregamento, o site torna-se inutilizável para usuários que não
+                        esperam mais de 3s.
+                    </p>
+                </div>
+                <div class="white-card">
+                    <h3 class="wc-title">Consequências Diretas</h3>
+                    <ul class="wc-desc" style="list-style-position: inside; padding-left: 0;">
+                        <li>Mais da metade dos visitantes desiste antes de ver qualquer produto</li>
+                        <li>Google penaliza o site em buscas móveis</li>
+                        <li>Taxa de conversão drasticamente reduzida</li>
+                        <li>Perda de competitividade frente a concorrentes</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- PageSpeed Comparative Screenshots -->
+            <div style="margin-top: 60px;">
+                <h3
+                    style="text-align: center; font-size: 1.1rem; margin-bottom: 30px; color: #111827; text-transform: uppercase; font-weight: 800; letter-spacing: 1px;">
+                    Comparativo de Performance</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px;">
+                    <!-- Desktop Score (Good) -->
+                    <div style="text-align: center;">
+                        <img src="https://www.goegrow.com.br/wp-content/uploads/2026/02/WhatsApp-Image-2026-02-09-at-14.48.40.jpeg"
+                            alt="Desktop PageSpeed Score 66"
+                            style="width: 100%; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 1px solid #e5e7eb;">
+                        <p style="margin-top: 15px; font-size: 0.95rem; color: #6b7280;">Desktop: <strong
+                                style="color: #f59e0b;">Nota 66 (Média)</strong></p>
+                    </div>
+
+                    <!-- Mobile Score (Bad) -->
+                    <div style="text-align: center;">
+                        <img src="https://www.goegrow.com.br/wp-content/uploads/2026/02/WhatsApp-Image-2026-02-09-at-14.48.20.jpeg"
+                            alt="Mobile PageSpeed Score 45"
+                            style="width: 100%; border-radius: 12px; box-shadow: 0 10px 30px rgba(220, 38, 38, 0.2); border: 2px solid #dc2626;">
+                        <p style="margin-top: 15px; font-size: 0.95rem; color: #6b7280;">Mobile: <strong
+                                style="color: #dc2626;">Nota 45 (Crítico)</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Critical Section - DARK -->
+    <section class="section-dark">
+        <div class="container dark-header">
+            <div class="problem-label">⚡ PROBLEMA CRÍTICO #2</div>
+            <h2 class="problem-headline">Experiência do Usuário Quebrada</h2>
+
+            <div class="feature-grid">
+                <div class="feature-box">
+                    <h3 class="fb-title">Sobrecarga de Dados</h3>
+                    <p class="fb-desc">
+                        O site carrega <strong>7.7MB</strong> de dados, o que é excessivo. Payloads gigantes causam
+                        lentidão extrema e consomem o plano de dados do usuário.
+                    </p>
+                </div>
+                <div class="feature-box">
+                    <h3 class="fb-title">Layout Instável (CLS)</h3>
+                    <p class="fb-desc">
+                        Score CLS de 0.16 (Ruim). O conteúdo muda de lugar enquanto carrega, dificultando a navegação.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Visual Evidence: Mockups -->
+            <!-- Visual Evidence: Mockups -->
+            <!-- Visual Evidence: GTMetrix -->
+            <div class="visual-showcase"
+                style="align-items: center; justify-items: center; grid-template-columns: 1fr;">
+                <div class="showcase-item">
+                    <img src="https://www.goegrow.com.br/wp-content/uploads/2026/02/Resultado-GT-Metrix-Unica-Ar-condicionado.jpeg"
+                        alt="GTMetrix Report"
+                        style="max-width: 800px; width: 100%; margin: 0 auto; display: block; border-radius: 12px; box-shadow: 0 20px 50px rgba(0,0,0,0.3);">
+                    <span class="showcase-caption">Relatório GTMetrix Completo</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Additional Content - Light -->
+    <section class="section-gray">
+        <div class="container">
+            <div class="problem-label">🎨 PROBLEMA CRÍTICO #3</div>
+            <h2 class="problem-headline">Vulnerabilidades e Segurança</h2>
+
+            <div class="white-cards-grid" style="margin-top: 50px;">
+                <div class="white-card"
+                    style="grid-column: 1 / -1; border: none; box-shadow: 0 4px 20px rgba(0,0,0,0.03);">
+                    <h3 class="wc-title">Segurança Exposta</h3>
+                    <p class="wc-desc">
+                        <strong>Problema identificado:</strong> A ausência de headers de segurança deixa o site
+                        vulnerável a ataques (XSS, clickjacking).
+                        <br><br>
+                        <strong style="color: var(--primary);">Decisão Necessária:</strong> Implementação de políticas
+                        de segurança modernas (HSTS, Content Security Policy) para proteger a reputação da marca e dados
+                        dos clientes.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline & Technical Conclusion -->
+    <section class="section-light" style="padding-top: 40px;">
+        <div class="container timeline-container">
+            <h2 class="problem-headline" style="text-align: center; font-size: 2.2rem;">CRONOGRAMA DE CORREÇÃO</h2>
+            <div class="timeline-separator"></div>
+
+            <div class="timeline-cards">
+                <!-- Fase 1 -->
+                <div class="timeline-card">
+                    <div class="phase-badge">1</div>
+                    <h3 class="tc-title">EMERGÊNCIA</h3>
+                    <p class="tc-desc">
+                        <strong>Foco:</strong> Compressão de imagens, cache e lazy loading.
+                        <br>
+                        <strong>Resolve:</strong> Reduz tempo de carga. Imagens WebP (-70% peso).
+                        <br>
+                        <strong>Impacto:</strong> Performance aceitável.
+                    </p>
+                </div>
+                <!-- Fase 2 -->
+                <div class="timeline-card">
+                    <div class="phase-badge">2</div>
+                    <h3 class="tc-title">PERFORMANCE</h3>
+                    <p class="tc-desc">
+                        <strong>Foco:</strong> Estabilização e code cleaning.
+                        <br>
+                        <strong>Resolve:</strong> CDN global, remoção de JS/CSS morto.
+                        <br>
+                        <strong>Impacto:</strong> Site preparado para crescimento.
+                    </p>
+                </div>
+                <!-- Fase 3 -->
+                <div class="timeline-card">
+                    <div class="phase-badge">3</div>
+                    <h3 class="tc-title">EVOLUÇÃO</h3>
+                    <p class="tc-desc">
+                        <strong>Foco:</strong> Redesign mobile-first e SEO.
+                        <br>
+                        <strong>Resolve:</strong> Interface intuitiva, dados estruturados.
+                        <br>
+                        <strong>Impacto:</strong> Ferramenta de vendas e conversão.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Technical Conclusion (NO FINANCIALS) -->
+            <div class="finance-card">
+                <div
+                    style="font-size: 0.85rem; font-weight: 800; color: #dc2626; text-transform: uppercase; letter-spacing: 2px;">
+                    ⚠️ CORREÇÃO TÉCNICA</div>
+                <h3 style="font-size: 1.8rem; font-weight: 800; margin: 15px 0; color: #111827;">A Otimização é
+                    Obrigatória</h3>
+                <p style="color: #4b5563; font-size: 1.1rem; max-width: 600px; margin: 0 auto;">
+                    60% do tráfego acontece via mobile. A otimização não é opcional — é crítica para a sobrevivência do
+                    negócio.
+                    <br><br>
+                    <strong>A infraestrutura precisa estar preparada para suportar e converter o tráfego que já
+                        existe.</strong>
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="strategy-footer">
+        <h2 class="footer-tag">Vamos destravar a performance da <span>Única Ar Condicionado</span>?</h2>
+        <p style="color: #6b7280; font-size: 1.1rem;">Auditoria Técnica Especializada - Go&Grow</p>
+        <a href="#" class="cta-btn">INICIAR PLANO DE RECUPERAÇÃO</a>
+    </footer>
+
+</body>
+
+</html>
